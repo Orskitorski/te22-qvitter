@@ -1,6 +1,7 @@
 import "dotenv/config"
 import express from "express"
 import nunjucks from "nunjucks"
+import bodyParser from "body-parser"
 
 import indexRouter from "./routes/index.js"
 
@@ -13,9 +14,9 @@ nunjucks.configure("views", {
 })
 
 app.use(express.static("public"))
+app.use(bodyParser.urlencoded({extended: true}))
 
 app.use("/",  indexRouter)
-
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
