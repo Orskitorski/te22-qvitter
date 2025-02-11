@@ -4,7 +4,7 @@ import pool from "../db.js"
 const router = express.Router()
 
 router.get("/", async (req, res)=> {
-    const [tweets] = await pool.promise().query(`select tweet.*, user.name from tweet join user on tweet.author_id = user.id order by created_at DESC;`)
+    const [tweets] = await pool.promise().query(`SELECT tweet.*, user.name FROM tweet JOIN user ON tweet.author_id = user.id ORDER BY created_at DESC;`)
     
     res.render("index.njk", {
         title: "Qvitter",
@@ -13,14 +13,23 @@ router.get("/", async (req, res)=> {
     })
 })
 
-router.get("/new", async (req, res) => {
-    const [user] = await pool.promise().query(`select * from user;`)
+router.get("/create", async (req, res) => {
+    const [user] = await pool.promise().query(`SELECT * FROM user;`)
 
     res.render('tweet_form.njk', {
         title: "Qvitter",
         message: "New Qveet",
         user: user
     })
+})
+
+router.get("/:id/delete", async (req, res) => {
+    
+    const id = req.params.id
+
+    await pool.promise().query(`DELETE FROM tweet WHERE id = ?`, [id])
+
+    res.redirect("http://localhost:3000/")
 })
 
 router.post('/', async (req, res) => {  
