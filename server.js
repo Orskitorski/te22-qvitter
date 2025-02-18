@@ -2,6 +2,7 @@ import "dotenv/config"
 import express from "express"
 import nunjucks from "nunjucks"
 import bodyParser from "body-parser"
+import logger from "morgan"
 
 import indexRouter from "./routes/index.js"
 import tweetsRouter from "./routes/tweets.js"
@@ -14,6 +15,7 @@ nunjucks.configure("views", {
     express: app,
 })
 
+app.use(logger("dev"))
 app.use(express.static("public"))
 app.use(bodyParser.urlencoded({extended: true}))
 

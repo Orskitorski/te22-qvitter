@@ -4,14 +4,14 @@
         <h2>{{message}}</h2>
         <a href="http://localhost:3000/tweets/create">Post Qveet</a>
     <ul class="tweets">
-        {%for tweet in tweets%}
+        {%for tweet in favourites%}
             <li class="tweet">
                 <article>
                     <header>
-                        <h3>{{favourites.name}}</h3>
-                        <time datetime="{{tweet.updated_at}}">{{favourites.updated_at}}</time>
+                        <h3>{{user.name}}</h3>
+                        <time datetime="{{tweet.updated_at}}">{{tweet.updated_at}}</time>
                     </header>
-                    <p>{{favourites.message}}</p>
+                    <p>{{tweet.message}}</p>
                     <footer>
                         <ul>
                             <li><a href="http://localhost:3000">Favourite</a></li>

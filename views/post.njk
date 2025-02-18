@@ -3,14 +3,17 @@
     <main class="container">
         <h2>{{message}}</h2>
         <form action="/tweets" method="POST">
-            <div class="fields">
+            <div class="form-field">
+                <label for="author:id">Author: </label>
                 <select name="author_id" id="author_id">
                     {% for item in user %}
                     <option value="{{item.id}}">{{item.name}}</option>
                     {% endfor %}
                 </select>
-                <label for="message">Message</label>
-                <input type="text" name="message" id="message">
+            </div>
+            <div class="form-field">
+                <label for="message">Message:</label>
+                <textarea type="text" name="message" id="message"></textarea>
             </div>
             <button type="submit">Submit</button>
         </form>

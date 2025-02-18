@@ -8,7 +8,6 @@ router.get("/", async (req, res)=> {
     const [tweets] = await pool.promise().query(`SELECT tweet.*, user.name FROM tweet JOIN user ON tweet.author_id = user.id ORDER BY created_at DESC;`)
    
     res.render("tweets.njk", {
-        title: "Qvitter",
         message: "Welcome to Qvitter!",
         tweets: tweets
     })
@@ -20,9 +19,9 @@ router.get("/favourites", async (req, res)=> {
     const [fav_user] = await pool.promise().query(`SELECT favourites.*, user.name FROM favourites JOIN user ON favourites.user_id = user.id;`)
 
     res.render("favourites.njk", {
-        title: "Qvitter",
         message: "Favourite Qveets",
         favourites: favourites,
+        fav_user: fav_user
     })
 })
 
@@ -39,11 +38,35 @@ router.get("/:id/delete", async (req, res) => {
     res.redirect("http://localhost:3000/tweets")
 })
 
-router.get("/create", async (req, res) => {
+router.get("/:id/edit", async (req, res) => {
+    const id = req.params.id
+    
+    const [rows] = await pool.promise().query("SELECT * FROM tweet WHERE id = ?", [id])
+    if (rows.length === 0) {
+    return res.status(404).send("Tweet not found")
+    }
+
+    console.log(rows[0].message)
+
+    res.render('edit.njk', {
+        message: "Edit Qveet",
+        rows: rows[0],
+    })
+})
+
+router.post('/edit', async (req, res) => {
+    
+    const { message, id } = req.body
+
+    await pool.promise().query('UPDATE tweet SET message=? where id=?', [message, id])
+
+    res.redirect("http://localhost:3000/tweets")
+})
+
+router.get("/post", async (req, res) => {
     const [user] = await pool.promise().query(`SELECT * FROM user;`)
 
-    res.render('tweet_form.njk', {
-        title: "Qvitter",
+    res.render('post.njk', {
         message: "New Qveet",
         user: user
     })

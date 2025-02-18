@@ -2,7 +2,7 @@
 {% block content %}
     <main class="container">
         <h2>{{message}}</h2>
-        <a href="http://localhost:3000/tweets/create">Post Qveet</a>
+        <a href="http://localhost:3000/tweets/post">Post Qveet</a>
     <ul class="tweets">
         {%for tweet in tweets%}
             <li class="tweet">
@@ -16,6 +16,7 @@
                         <ul>
                             <li><a href="http://localhost:3000/tweets/favourites">Favourite</a></li>
                             <li><a href="http://localhost:3000">Reply</a></li>
+                            <li><a href="http://localhost:3000/tweets/{{tweet.id}}/edit">Edit</a></li>
                             <li><a href="http://localhost:3000/tweets/{{tweet.id}}/delete">Delete</a></li>
                         </ul>
                     </footer>
