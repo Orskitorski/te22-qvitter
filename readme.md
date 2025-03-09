@@ -1,4 +1,3 @@
-Bra/ dåligt/lära dig mer om?
 # Qvitter
 
 ## Routes
