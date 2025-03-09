@@ -8,8 +8,9 @@ body {
         color: inherit;
         text-decoration: none;
         border: 1px, solid, #cccc;
-        border-radius: 1rem;
+        border-radius: 0.5rem;
         padding: 0.5rem;
+        
     }
     time {
         color:#cccc
@@ -47,6 +48,7 @@ main {
     border: 1px solid #cccc;
     border-radius: 0.5rem;
     padding: 1rem;
+    background-color: rgb(29, 29, 29);
 
     p {
         margin: 1rem;
