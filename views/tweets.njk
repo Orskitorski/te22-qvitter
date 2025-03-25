@@ -1,8 +1,10 @@
 {% extends "layout.njk" %}
 {% block content %}
     <main class="container">
+        <h3><a href="/logout">Log Out</a></h3>
         <h2>{{message}}</h2>
-        <a href="http://localhost:3000/tweets/post">Post Qveet</a>
+        <a href="/tweets/post">Post Qveet</a>
+        <a href="/tweets/favourites">Favourites</a>
     <ul class="tweets">
         {%for tweet in tweets%}
             <li class="tweet">
@@ -14,10 +16,10 @@
                     <p>{{tweet.message}}</p>
                     <footer>
                         <ul>
-                            <li><a href="http://localhost:3000/tweets/{{tweet.id}}/favourites"><i class="fa fa-star"></i></a></li>
-                            <li><a href="http://localhost:3000"><i class="fa fa-reply"></i></a></li>
-                            <li><a href="http://localhost:3000/tweets/{{tweet.id}}/edit"><i class="fa fa-pencil"></i></a></li>
-                            <li><a href="http://localhost:3000/tweets/{{tweet.id}}/delete"><i class="fa fa-trash"></i></a></li>
+                            <li><a href="/tweets/{{tweet.id}}/favourites"><i class="fa fa-star"></i></a></li>
+                            <li><a href=""><i class="fa fa-reply"></i></a></li>
+                            <li><a href="/tweets/{{tweet.id}}/edit"><i class="fa fa-pencil"></i></a></li>
+                            <li><a href="/tweets/{{tweet.id}}/delete"><i class="fa fa-trash"></i></a></li>
                         </ul>
                     </footer>
                 </article>
