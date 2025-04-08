@@ -6,7 +6,7 @@ import logger from "morgan"
 import session from "express-session"
 
 import indexRouter from "./routes/index.js"
-import tweetsRouter from "./routes/tweets.js"
+import newsRouter from "./routes/news.js"
 
 const app = express()
 const port = 3000
@@ -27,7 +27,7 @@ app.use(session({
 }))
 
 app.use("/",  indexRouter)
-app.use("/tweets", tweetsRouter)
+app.use("/news", newsRouter)
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)

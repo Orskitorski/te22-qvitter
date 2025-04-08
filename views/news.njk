@@ -3,17 +3,15 @@
     <main class="container">
         <h3><a href="/logout">Log Out</a></h3>
         <h2>{{message}}</h2>
-        <a href="/tweets/post">Post Qveet</a>
-        <a href="/tweets/favourites">Favourites</a>
-    <ul class="tweets">
-        {%for tweet in tweets%}
-            <li class="tweet">
+    <ul class="posts">
+        {%for post in posts%}
+            <li class="post">
                 <article>
                     <header>
-                        <h3>{{tweet.name}}</h3>
-                        <time datetime="{{tweet.updated_at}}">{{tweet.updated_at}}</time>
+                        <h3>{{post.name}}</h3>
+                        <time datetime="{{post.created_at}}">{{post.created_at}}</time>
                     </header>
-                    <p>{{tweet.message}}</p>
+                    <p>{{post.message}}</p>
                     <footer>
                         <ul>
                             <li><a href="/tweets/{{tweet.id}}/favourites"><i class="fa fa-star"></i></a></li>

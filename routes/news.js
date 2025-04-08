@@ -5,14 +5,14 @@ import { ExpressValidator } from "express-validator"
 const router = express.Router()
 
 router.get("/", async (req, res)=> {
-    const [tweets] = await pool.promise().query(
-        `SELECT tweet.*, login.name FROM tweet 
-        JOIN login ON tweet.author_id = login.id 
+    const [posts] = await pool.promise().query(
+        `SELECT posts.*, login.name FROM posts 
+        JOIN login ON posts.author_id = login.id 
         ORDER BY created_at DESC;`)
     if (req.session.login) {
-        res.render("tweets.njk", {
-            message: "Welcome to Qvitter!",
-            tweets: tweets
+        res.render("news.njk", {
+            message: `Welcome to the "My Pocket Henrik" Forum!`,
+            posts: posts
         })
     } else {
         res.redirect("/login")
@@ -48,7 +48,6 @@ router.get("/favourites", async (req, res)=> {
 
 router.get("/:id/unfavourite", async (req, res) => {
     const id = req.params.id
-    console.log(id)
 
     if (!Number.isInteger(Number(id))) {
         return res.status(400).send("Invalid ID")
@@ -83,8 +82,6 @@ router.get("/:id/edit", async (req, res) => {
     if (rows.length === 0) {
     return res.status(404).send("Tweet not found")
     }
-
-    console.log(rows[0].message)
 
     res.render('edit.njk', {
         message: "Edit Qveet",
