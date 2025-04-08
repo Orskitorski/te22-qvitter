@@ -32,10 +32,8 @@ router.post("/login", async (req, res) => {
     })
   } else {
     bcrypt.compare(password, dbpassword[0].password, async function(err, result) {
-      console.log(result, err)
       if (result == true){
         const [id] = await pool.promise().query(`SELECT id FROM login WHERE name = ?`, [username])
-        console.log(id[0])
         req.session.login=true
         req.session.userId = id[0].id
         res.redirect("/tweets")
@@ -82,8 +80,10 @@ router.post("/signup", async (req, res) => {
 })
 
 router.get("/logout", (req, res) => {
-    req.session.login = false
+  req.session.destroy(function(err) {
     res.redirect("/")
+  })
+  
 })
 
 export default router

@@ -48,7 +48,6 @@ router.get("/favourites", async (req, res)=> {
 
 router.get("/:id/unfavourite", async (req, res) => {
     const id = req.params.id
-    console.log(id)
 
     if (!Number.isInteger(Number(id))) {
         return res.status(400).send("Invalid ID")
@@ -83,8 +82,6 @@ router.get("/:id/edit", async (req, res) => {
     if (rows.length === 0) {
     return res.status(404).send("Tweet not found")
     }
-
-    console.log(rows[0].message)
 
     res.render('edit.njk', {
         message: "Edit Qveet",
