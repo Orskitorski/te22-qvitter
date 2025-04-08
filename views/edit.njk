@@ -2,7 +2,7 @@
 {% block content %}
     <main class="container">
         <h2>{{message}}</h2>
-        <form action="/tweets/edit" method="POST">
+        <form action="/news/edit" method="POST">
             <div class="form-field">
                 <input type="hidden" name="id" value="{{ rows.id }}">
                 <label for="message">Message:</label>
