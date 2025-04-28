@@ -34,8 +34,10 @@ router.post("/login", async (req, res) => {
     bcrypt.compare(password, dbpassword[0].password, async function(err, result) {
       if (result == true){
         const [id] = await pool.promise().query(`SELECT id FROM login WHERE name = ?`, [username])
+        const [user] = await pool.promise().query(`SELECT * FROM login WHERE name = ?`, [username])
         req.session.login=true
         req.session.userId = id[0].id
+        req.session.adminStatus = user[0].admin_status
         res.redirect("/news")
       }
       else {

@@ -62,13 +62,13 @@ router.post('/edit', async (req, res) => {
 router.get("/post", async (req, res) => {
     const [user] = await pool.promise().query(`SELECT * FROM login;`)
 
-    if (req.session.login) {
+    if (req.session.login && req.session.adminStatus == 1) {
         res.render('post.njk', {
             message: "New Post",
             user: user
         })
     } else {
-        res.redirect("/login")
+        res.redirect("/news")
     }
 })
 

@@ -3,14 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/reset.css">
     <link rel="stylesheet" href="/stylesheet.css">
     <title>My Pocket Henrik Forum</title>
 </head>
 <body>
-    <header>
-        <h1><a href="/">MPH</a></h1>
-    </header>
+    <div class="sidebar">
+        <header>
+            <h1><a href="/">MPH</a></h1>
+            <img src="/images/MPHenrik_Tamagochi.png" alt="MPH-Logo">
+        </header>
+        <ul>
+            <li>
+                <a href="/news">News</a>
+            </li>
+            <li>
+                <a href="/">Official Site</a>
+            </li>
+        </ul>
+    </div>
     {% block content %}
     {% endblock %}
 </body>
