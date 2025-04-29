@@ -1,42 +1,60 @@
 import express from "express"
-import pool from "../db.js"
+import db from "../db-sqlite.js"
 import bcrypt from "bcrypt"
 
 const router = express.Router()
 
 router.get("/", async (req, res)=> {
-   
+  if(req.session.login) {
     res.render("index.njk", {
-        message: `Welcome to the "My Pocket Henrik" Forum!`,
+      message: `Welcome to the "My Pocket Henrik" Forum!`,
+      loginbutton: "Log Out",
+      loginURL: "/logout"
     })
+  } else {
+    res.render("index.njk", {
+      message: `Welcome to the "My Pocket Henrik" Forum!`,
+      loginbutton: "Log In",
+      loginURL: "/login"
+    })
+  }
 })
 
 router.get("/login", (req, res) => {
-    res.render("login.njk", { 
-      title: "Login", 
-      message: "Best service, legit.",
-      error: ""
-    })
+    if(!req.session.login) {
+      res.render("login.njk", { 
+        title: "Login", 
+        message: "Best service, legit.",
+        error: "",
+        loginbutton: "Log In",
+        loginURL: "/login"
+      })
+    } else {
+      res.redirect("/")
+    }
 })
 
 router.post("/login", async (req, res) => {
   const { username, password } = req.body
 
-  const [dbpassword] = await pool.promise().query(`SELECT password FROM login WHERE name = ?`, [username])
+  const result = await db.get(`SELECT * FROM login WHERE name = ?`, [username])
 
-  if (dbpassword.length == 0) {
+  if (result === undefined) {
     res.render("login.njk", {
       title: "Login", 
       message: "Best service, legit.", 
       error: "*Wrong username or password"
     })
   } else {
-    bcrypt.compare(password, dbpassword[0].password, async function(err, result) {
+    const dbpassword = await db.get(`SELECT password FROM login WHERE name = ?`, [username])
+  
+    bcrypt.compare(password, dbpassword.password, async function(err, result) {
       if (result == true){
-        const [id] = await pool.promise().query(`SELECT id FROM login WHERE name = ?`, [username])
-        const [user] = await pool.promise().query(`SELECT * FROM login WHERE name = ?`, [username])
+        const id = await db.get(`SELECT id FROM login WHERE name = ?`, [username])
+        console.log(id)
+        const user = await db.all(`SELECT * FROM login WHERE name = ?`, [username])
         req.session.login=true
-        req.session.userId = id[0].id
+        req.session.userId = id.id
         req.session.adminStatus = user[0].admin_status
         res.redirect("/news")
       }
@@ -52,7 +70,20 @@ router.post("/login", async (req, res) => {
 })
 
 router.get("/signup", (req, res) => {
-    res.render("signup.njk", { 
+  if(!req.session.login) {
+    res.render("signup.njk", {
+      title: "Sign Up", 
+      message: "Best service, legit.",
+      error: "",
+      loginbutton: "Log In",
+      loginURL: "/login"
+    })
+  } else {
+    res.redirect("/")
+  }
+  
+  
+  res.render("signup.njk", { 
       title: "Sign Up", 
       message: "Best service, legit.",
       error: ""
@@ -62,14 +93,15 @@ router.get("/signup", (req, res) => {
 router.post("/signup", async (req, res) => {
   const { username, password } = req.body
 
-  const [dbpassword] = await pool.promise().query(`SELECT password FROM login WHERE name = ?`, [username])
+  const result = await db.get(`SELECT * FROM login WHERE name = ?`, [username])
 
-  if (dbpassword.length == 0) {
+  if (result === undefined) {
     const hashedPW = await bcrypt.hash(password, 10)
 
-    await pool.promise().query('INSERT INTO login (name, password) VALUES (?, ?)', [username, hashedPW])
-    const [id] = await pool.promise().query(`SELECT id FROM login WHERE name = ?`, [username])
-    req.session.userId = id[0].id
+    await db.run('INSERT INTO login (name, password) VALUES (?, ?)', username, hashedPW)
+    const id = db.get(`SELECT id FROM login WHERE name = ?`, [username])
+    console.log(hashedPW)
+    req.session.userId = id.id
     req.session.login = true
     res.redirect("/")
   } else {

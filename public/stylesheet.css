@@ -40,7 +40,7 @@ body {
 
     .sidebar {
         display: grid;
-        grid-template-rows: 100px 100px;
+        grid-template-rows: 75px 100px;
         grid-area: sidebar;
         background-color: #30C484;
 
@@ -71,7 +71,12 @@ body {
 
 main {
     margin-inline: auto;
-    width: 50%;
+    margin-top: 5rem;
+    width: 75%;
+
+    h3 {
+        margin-bottom: 1rem;
+    }
 }
 
 .posts {
@@ -83,10 +88,9 @@ main {
 
 .post {
     margin-bottom: 2rem;
-    border: 1px solid #30C484;
     border-radius: 0.5rem;
     padding: 1rem;
-    background-color: #A9F0D1;
+    background-color: #30C484;
 
     p {
         margin: 1rem;
